@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Attendance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #3871C1;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .delete-btn {
+            margin-left: 10px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Worker Attendance</h2>
+        <label for="worker">Select Worker:</label>
+        <select id="worker">
+            <option value="Alice Brown">Alice Brown</option>
+            <option value="Bob White">Bob White</option>
+            <option value="Charlie Green">Charlie Green</option>
+        </select>
+        <br><br>
+        <label>Attendance:</label>
+        <input type="radio" name="attendance" value="Full Day"> Full Day
+        <input type="radio" name="attendance" value="Half Day"> Half Day
+        <br><br>
+        <button onclick="logAttendance()">Submit</button>
+        <h3>Attendance Log:</h3>
+        <ul id="log"></ul>
+    </div>
+
+    <script>
+        function logAttendance() {
+            let worker = document.getElementById("worker").value;
+            let attendance = document.querySelector('input[name="attendance"]:checked');
+            let log = document.getElementById("log");
+            
+            let dateObj = new Date();
+            let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            let formattedDate = dateObj.toLocaleDateString('en-US', options); // Example: Friday, February 21, 2025
+            
+            if (attendance) {
+                let entry = document.createElement("li");
+                entry.innerHTML = `${formattedDate} - ${worker} - ${attendance.value} <button class='delete-btn' onclick='deleteEntry(this)'>Delete</button>`;
+                log.appendChild(entry);
+            } else {
+                alert("Please select attendance type.");
+            }
+        }
+
+        function deleteEntry(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
